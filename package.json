@@ -1,0 +1,51 @@
+{
+  "name": "zemptime.pr-stats",
+  "description": "pr-stats",
+  "version": "0.0.0",
+  "author": "zemptime",
+  "repository": {
+    "type": "git",
+    "url": "Add github URL here"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "aha-cli": "^1.9.2"
+  },
+  "ahaExtension": {
+    "cspSources": [],
+    "contributes": {
+      "events": {
+        "observer": {
+          "title": "Github First Review Observer",
+          "entryPoint": "src/events/firstReviews.pr.js",
+          "handles": [
+            "aha-develop.github.pr.review_requested",
+            "aha-develop.github.pr.review_request_removed",
+            "aha-develop.github.pr.review_dismissed",
+            "aha-develop.github.pr.reviewed"
+          ]
+        }
+      },
+      "settings": {
+        "firstReviews": {
+          "title": "First Review Team Filters",
+          "description": "[Team identifier,pr title regex] to track time to first review.",
+          "scope": ["account"],
+          "type": "string",
+          "array": true,
+          "default": ["Conversion,CN-|CXT-"]
+        }
+      },
+      "views": {
+        "samplePage": {
+          "title": "Sample page",
+          "host": "page",
+          "entryPoint": "src/views/samplePage.js",
+          "location": {
+            "menu": "Work"
+          }
+        }
+      }
+    }
+  }
+}
