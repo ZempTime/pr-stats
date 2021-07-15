@@ -258,7 +258,6 @@ const FirstReviewPage = ({ teams }) => {
           Magic mirror on the wall...
           what toppings are best of all?
         </blockquote>
-        <img src="https://www.qsrmagazine.com/sites/default/files/phut_0.jpg"></img>
       </div>
     </>
   );
