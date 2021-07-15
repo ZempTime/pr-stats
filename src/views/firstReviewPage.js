@@ -8,8 +8,6 @@ const PROMISE_STATES = {
   error: 'error'
 };
 
-const RECORD_TYPES = ['FEATURE', 'REQUIREMENT'];
-
 const initialQueryState = {
   status: PROMISE_STATES.notasked,
   error: null,
@@ -21,7 +19,7 @@ const Styles = () => {
     <style>
       {`
   .title {
-    color: var(--aha-blue-800);
+    color: var(--aha-blue-400);
     font-size: 20px;
     text-align: center;
     margin: 20px;
@@ -33,6 +31,53 @@ const Styles = () => {
     margin-left: ;
     max-width: 800px;
     margin: 20px auto;
+  }
+  
+  .clickable {
+    color: var(--aha-blue-400)
+    cursor: pointer;
+  }
+  
+  .clickable:hover {
+    color: var(--aha-orange-500)
+  }
+  
+  .active {
+    text-decoration: underline
+  }
+  
+  table {
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  table caption {
+    text-align: left;
+  }
+  
+  td,
+  th {
+    padding: 6px;
+    text-align: left;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+  
+  thead {
+    border-bottom: 1px solid #dbdbdb;
+    border-bottom: 1px solid var(--aha-gray-100);
+  }
+  
+  tfoot {
+    border-top: 1px solid #dbdbdb;
+    border-top: 1px solid var(--aha-gray-100);
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f7f7f7;
+    background-color: var(--aha-teal-100);
   }
     `}
     </style>
@@ -67,6 +112,18 @@ const query = (recordType) => {
 const FirstReviewPage = ({ teams }) => {
   const [featuresQuery, setFeaturesQuery] = useState(initialQueryState);
   const [requirementsQuery, setRequirementsQuery] = useState(initialQueryState);
+
+  const [sortColumn, setSortColumn] = useState("date");
+
+  const sortFn = (column) => {
+    return {
+      "date": dateCompare,
+      "duration": durationCompare
+    }[column];
+  };
+
+  const dateCompare = (a, b) => Date.parse(b.review_requested_at) - Date.parse(a.review_requested_at);
+  const durationCompare = (a, b) => b.time_to_first_review - a.time_to_first_review;
 
   const initialTeamValue = new URLSearchParams(window.location.search).get("team") || teams[0] || '';
   const [selectedTeam, setSelectedTeam] = useState(initialTeamValue);
@@ -135,17 +192,51 @@ const FirstReviewPage = ({ teams }) => {
       <>
         <h3>Current average time to first review: {average} </h3>
 
-        {
-          reviewedPrs
-            .sort(pr => pr.review_requested_at)
-            .map(pr => (
-              <div>
-                <a href={pr.url} target="_blank" rel="noopener noreferrer">
-                  {pr.url} - {prettyMs(pr.time_to_first_review)}
-                </a>
-              </div>
-            ))
-        }
+        <table>
+          <thead>
+            <tr>
+              <th>Name (but actually id)</th>
+              <th
+                className={`clickable ${sortColumn === "date" ? 'active' : 'inactive'}`}
+                onClick={() => setSortColumn("date")}
+              >
+                Date
+              </th>
+              <th>Link</th>
+              <th
+                className={`clickable ${sortColumn === "duration" ? 'active' : 'inactive'}`}
+                onClick={() => setSortColumn("duration")}
+              >
+                Duration
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              reviewedPrs
+                .sort(sortFn(sortColumn))
+                .map(pr => (
+                  <tr>
+                    <td>
+                      {pr.id}
+                    </td>
+                    <td>
+                      {pr.review_requested_at.slice(0, 10)}
+                    </td>
+                    <td>
+                      <a href={pr.url} target="_blank" rel="noopener noreferrer">
+                        {pr.url}
+                      </a>
+                    </td>
+                    <td>
+                      {prettyMs(pr.time_to_first_review)}
+                    </td>
+                  </tr>
+                ))
+            }
+
+          </tbody>
+        </table>
       </>
     )
   }
@@ -161,6 +252,13 @@ const FirstReviewPage = ({ teams }) => {
         </select>
 
         {stats}
+
+        <br />
+        <blockquote>
+          Magic mirror on the wall...
+          what toppings are best of all?
+        </blockquote>
+        <img src="https://www.qsrmagazine.com/sites/default/files/phut_0.jpg"></img>
       </div>
     </>
   );
