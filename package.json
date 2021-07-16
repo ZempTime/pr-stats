@@ -29,11 +29,11 @@
       "settings": {
         "firstReviews": {
           "title": "First Review Team Filters",
-          "description": "[Team identifier,pr title regex] to track time to first review.",
+          "description": "[Team identifier,ghname1,ghname2,...] to track time to first review.",
           "scope": ["account"],
           "type": "string",
           "array": true,
-          "default": ["Conversion,CN-|CXT-"]
+          "default": ["Conversion,zemptime"]
         }
       },
       "views": {

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
 import prettyMs from 'https://cdn.skypack.dev/pretty-ms';
+import React, { useState, useEffect } from "react";
+import { SETTING_FIRST_REVIEWS, buildTeamFilters } from "../lib/common";
 
 const PROMISE_STATES = {
   notasked: 'notasked',
@@ -24,7 +25,7 @@ const Styles = () => {
     text-align: center;
     margin: 20px;
   }
-    
+
   .firstReviewContainer {
     display: flex;
     flex-direction: column;
@@ -32,31 +33,31 @@ const Styles = () => {
     max-width: 800px;
     margin: 20px auto;
   }
-  
+
   .clickable {
     color: var(--aha-blue-400)
     cursor: pointer;
   }
-  
+
   .clickable:hover {
     color: var(--aha-orange-500)
   }
-  
+
   .active {
     text-decoration: underline
   }
-  
+
   table {
     border-collapse: collapse;
     margin-bottom: 10px;
     width: 100%;
     table-layout: fixed;
   }
-  
+
   table caption {
     text-align: left;
   }
-  
+
   td,
   th {
     padding: 6px;
@@ -64,17 +65,17 @@ const Styles = () => {
     vertical-align: top;
     word-wrap: break-word;
   }
-  
+
   thead {
     border-bottom: 1px solid #dbdbdb;
     border-bottom: 1px solid var(--aha-gray-100);
   }
-  
+
   tfoot {
     border-top: 1px solid #dbdbdb;
     border-top: 1px solid var(--aha-gray-100);
   }
-  
+
   tbody tr:nth-child(even) {
     background-color: #f7f7f7;
     background-color: var(--aha-teal-100);
@@ -125,7 +126,7 @@ const FirstReviewPage = ({ teams }) => {
   const dateCompare = (a, b) => Date.parse(b.review_requested_at) - Date.parse(a.review_requested_at);
   const durationCompare = (a, b) => b.time_to_first_review - a.time_to_first_review;
 
-  const initialTeamValue = new URLSearchParams(window.location.search).get("team") || teams[0] || '';
+  const initialTeamValue = new URLSearchParams(window.location.search).get("team") || teams?.[0]?.[0] || '';
   const [selectedTeam, setSelectedTeam] = useState(initialTeamValue);
 
   useEffect(() => {
@@ -180,13 +181,14 @@ const FirstReviewPage = ({ teams }) => {
     ];
 
     const reviewedPrs = prs
-      .filter(entry => entry.team.toLowerCase() === selectedTeam.toLowerCase())
+      .filter(entry => entry.team[0].toLowerCase() === selectedTeam[0].toLowerCase())
       .filter(entry => entry?.time_to_first_review)
 
-    const teamAverageMs = reviewedPrs.reduce((acc, pr) => acc + pr.time_to_first_review, 0) / reviewedPrs.length;
+    const teamAverageMs = reviewedPrs.length > 0
+      ? reviewedPrs.reduce((acc, pr) => acc + pr.time_to_first_review, 0) / reviewedPrs.length
+      : 0;
 
     const average = prettyMs(teamAverageMs)
-
 
     stats = (
       <>
@@ -218,7 +220,7 @@ const FirstReviewPage = ({ teams }) => {
                 .map(pr => (
                   <tr>
                     <td>
-                      {pr.id}
+                      {pr?.title || pr.id}
                     </td>
                     <td>
                       {pr.review_requested_at.slice(0, 10)}
@@ -248,8 +250,10 @@ const FirstReviewPage = ({ teams }) => {
 
       <div className="firstReviewContainer">
         <select name="team" onChange={handleTeamChange} value={selectedTeam}>
-          {teams.map((team) => <option value={team}>{team}</option>)}
+          {teams.map((team) => <option value={team[0]}>{team[0]}</option>)}
         </select>
+
+        <p>usernames: {teams.find(team => team[0] === selectedTeam)?.[1].join(", ")}</p>
 
         {stats}
 
@@ -264,7 +268,7 @@ const FirstReviewPage = ({ teams }) => {
 }
 
 aha.on("firstReviewPage", ({ record, fields }, { identifier, settings }) => {
-  const teams = settings.get("firstReviews").map((s) => s.split(",")[0]);
+  const teams = buildTeamFilters(settings[SETTING_FIRST_REVIEWS]);
 
   return (
     <FirstReviewPage teams={teams} />
