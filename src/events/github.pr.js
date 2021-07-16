@@ -54,18 +54,19 @@ class FirstReviewTracker {
       pr.url = url;
       pr.title = title;
       pr.team = team;
-      pr.review_requested_at = updated_at;
+      pr['review_requested_at'] = updated_at;
     }
   }
 
   //  2021-07-08 16:41:28
   reviewSubmitted({ team, id, review_id, review_submitted_at }) {
     const pr = this.state.find((pullRequest) => pullRequest.id === id);
+    if (!pr) return;
 
     const hasReviewRequestedAt = Boolean(pr.review_requested_at);
     if (!hasReviewRequestedAt) this.removePullRequest({ team, id })
 
-    const review = pr.pull_request_reviews.find((prr) => prr.id === review_id);
+    const review = (pr.pull_request_reviews).find((prr) => prr.id === review_id);
 
     if (!review) {
       console.log(`Tracking new PR pull_request_review with review_id ${review_id}`);
