@@ -182,17 +182,32 @@ const FirstReviewPage = ({ teams }) => {
 
     const reviewedPrs = prs
       .filter(entry => entry.team[0].toLowerCase() === selectedTeam[0].toLowerCase())
-      .filter(entry => entry?.time_to_first_review)
+      .filter(entry => !!entry?.time_to_first_review)
 
-    const teamAverageMs = reviewedPrs.length > 0
+    const teamHistoricalAverageMs = reviewedPrs.length > 0
       ? reviewedPrs.reduce((acc, pr) => acc + pr.time_to_first_review, 0) / reviewedPrs.length
       : 0;
 
-    const average = prettyMs(teamAverageMs)
+    const historicalAverage = prettyMs(teamHistoricalAverageMs);
+
+    const teamPrs = prs.filter(entry => entry.team[0].toLowerCase() === selectedTeam[0].toLowerCase());
+
+    const teamInclusiveAverageMs = teamPrs.length > 0
+      ? teamPrs.reduce((acc, pr) => {
+        let duration = pr.time_to_first_review;
+        if (pr?.review_requested_at) duration ||= Date.now() - pr.review_requested_at;
+        duration ||= 0;
+
+        return acc + duration;
+      }, 0) / teamPrs.length
+      : 0;
+
+    const inclusiveAverage = prettyMs(teamInclusiveAverageMs)
 
     stats = (
       <>
-        <h3>Current average time to first review: {average} </h3>
+        <h3>Current historical average time to first review: {historicalAverage} </h3>
+        {/* <h3>Current inclusive average time to first review: {inclusiveAverage}</h3> */}
 
         <table>
           <thead>
