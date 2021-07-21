@@ -1,5 +1,5 @@
 import { withGitHubApi } from "../lib/github/api";
-import { getPrByUrl } from "../lib/github/getPr";
+import { getPrByUrl } from "../lib/github/pullRequest";
 import { processPullRequest } from "../store/processPullRequest"
 
 /**

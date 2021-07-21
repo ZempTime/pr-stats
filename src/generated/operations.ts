@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
- /* This file is generated from the contents of src/lib/github/queries.graphql */ /* Do not modify this file directly */ /* Use `yarn codegen` to update this file */ 
+/* This file is generated from the contents of src/lib/github/queries.graphql */ /* Do not modify this file directly */ /* Use `yarn codegen` to update this file */
 export const TimelineItems = gql`
     fragment TimelineItems on PullRequest {
   timelineItems(
@@ -69,18 +69,24 @@ export const TimelineItems = gql`
   }
 }
     `;
-export const GqlGetPr = gql`
-    query GetPr($name: String!, $owner: String!, $number: Int!) {
-  repository(name: $name, owner: $owner) {
-    pullRequest(number: $number) {
-      id
-      title
-      url
-      author {
-        login
-      }
-      ...TimelineItems
+export const PullRequest = gql`
+    fragment PullRequest on Repository {
+  pullRequest(number: $number) {
+    id
+    createdAt
+    title
+    url
+    author {
+      login
     }
+    ...TimelineItems
   }
 }
     ${TimelineItems}`;
+export const GqlPullRequest = gql`
+    query PullRequest($name: String!, $owner: String!, $number: Int!) {
+  repository(name: $name, owner: $owner) {
+    ...PullRequest
+  }
+}
+    ${PullRequest}`;

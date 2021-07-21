@@ -1,10 +1,10 @@
 import { interpret } from "xstate/es";
 import { pullRequestMachine } from "../store/pullRequestMachine";
-import { GetPrQuery, } from "../generated/graphql"
+import { PullRequestQuery, } from "../generated/graphql"
 import { IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS } from "../extension"
 
 export const processPullRequest = async (
-  { record, pullRequest }: { record: any, pullRequest: GetPrQuery['repository']['pullRequest'] }
+  { record, pullRequest }: { record: any, pullRequest: PullRequestQuery['repository']['pullRequest'] }
 ) => {
   const { id, title, url, author: { login }, timelineItems } = pullRequest;
   console.info(`Processing pr: ${url} by ${login}`);
@@ -24,7 +24,6 @@ export const processPullRequest = async (
 
   prService.start();
 
-  debugger
   events.forEach(event => prService.send(event));
 
   const { value, context } = prService.state;

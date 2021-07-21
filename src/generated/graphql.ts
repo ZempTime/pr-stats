@@ -1,4 +1,4 @@
- /* This file is generated from the contents of src/lib/github/queries.graphql */ /* Do not modify this file directly */ /* Use `yarn codegen` to update this file */ 
+/* This file is generated from the contents of src/lib/github/queries.graphql */ /* Do not modify this file directly */ /* Use `yarn codegen` to update this file */
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -22029,95 +22029,118 @@ export type WorkflowRunPendingDeploymentRequestsArgs = {
 
 export type TimelineItemsFragment = (
   { __typename?: 'PullRequest' }
-  & { timelineItems: (
-    { __typename?: 'PullRequestTimelineItemsConnection' }
-    & { pageInfo: (
-      { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'endCursor' | 'hasNextPage'>
-    ), nodes?: Maybe<Array<Maybe<{ __typename: 'AddedToProjectEvent' } | { __typename: 'AssignedEvent' } | { __typename: 'AutoMergeDisabledEvent' } | { __typename: 'AutoMergeEnabledEvent' } | { __typename: 'AutoRebaseEnabledEvent' } | { __typename: 'AutoSquashEnabledEvent' } | { __typename: 'AutomaticBaseChangeFailedEvent' } | { __typename: 'AutomaticBaseChangeSucceededEvent' } | { __typename: 'BaseRefChangedEvent' } | { __typename: 'BaseRefDeletedEvent' } | { __typename: 'BaseRefForcePushedEvent' } | (
-      { __typename: 'ClosedEvent' }
-      & Pick<ClosedEvent, 'createdAt'>
-    ) | { __typename: 'CommentDeletedEvent' } | { __typename: 'ConnectedEvent' } | { __typename: 'ConvertToDraftEvent' } | { __typename: 'ConvertedNoteToIssueEvent' } | { __typename: 'CrossReferencedEvent' } | { __typename: 'DemilestonedEvent' } | { __typename: 'DeployedEvent' } | { __typename: 'DeploymentEnvironmentChangedEvent' } | { __typename: 'DisconnectedEvent' } | { __typename: 'HeadRefDeletedEvent' } | { __typename: 'HeadRefForcePushedEvent' } | { __typename: 'HeadRefRestoredEvent' } | { __typename: 'IssueComment' } | (
-      { __typename: 'LabeledEvent' }
-      & Pick<LabeledEvent, 'id' | 'createdAt'>
-      & { label: (
-        { __typename?: 'Label' }
-        & Pick<Label, 'name'>
-      ) }
-    ) | { __typename: 'LockedEvent' } | { __typename: 'MarkedAsDuplicateEvent' } | { __typename: 'MentionedEvent' } | (
-      { __typename: 'MergedEvent' }
-      & Pick<MergedEvent, 'createdAt' | 'resourcePath'>
-    ) | { __typename: 'MilestonedEvent' } | { __typename: 'MovedColumnsInProjectEvent' } | { __typename: 'PinnedEvent' } | { __typename: 'PullRequestCommit' } | { __typename: 'PullRequestCommitCommentThread' } | (
-      { __typename: 'PullRequestReview' }
-      & Pick<PullRequestReview, 'createdAt'>
-    ) | { __typename: 'PullRequestReviewThread' } | { __typename: 'PullRequestRevisionMarker' } | { __typename: 'ReadyForReviewEvent' } | { __typename: 'ReferencedEvent' } | (
-      { __typename: 'RemovedFromProjectEvent' }
-      & Pick<RemovedFromProjectEvent, 'createdAt'>
-    ) | { __typename: 'RenamedTitleEvent' } | (
-      { __typename: 'ReopenedEvent' }
-      & Pick<ReopenedEvent, 'createdAt'>
-    ) | { __typename: 'ReviewDismissedEvent' } | (
-      { __typename: 'ReviewRequestRemovedEvent' }
-      & Pick<ReviewRequestRemovedEvent, 'createdAt'>
-      & { requestedReviewer?: Maybe<{ __typename: 'Mannequin' } | (
-        { __typename: 'Team' }
-        & Pick<Team, 'id'>
-      ) | (
-        { __typename: 'User' }
-        & Pick<User, 'id'>
-      )> }
-    ) | (
-      { __typename: 'ReviewRequestedEvent' }
-      & Pick<ReviewRequestedEvent, 'createdAt'>
-      & { requestedReviewer?: Maybe<{ __typename: 'Mannequin' } | (
-        { __typename: 'Team' }
-        & Pick<Team, 'id'>
-      ) | (
-        { __typename: 'User' }
-        & Pick<User, 'id'>
-      )> }
-    ) | { __typename: 'SubscribedEvent' } | { __typename: 'TransferredEvent' } | { __typename: 'UnassignedEvent' } | (
-      { __typename: 'UnlabeledEvent' }
-      & Pick<UnlabeledEvent, 'id'>
-      & { label: (
-        { __typename?: 'Label' }
-        & Pick<Label, 'name'>
-      ) }
-    ) | { __typename: 'UnlockedEvent' } | { __typename: 'UnmarkedAsDuplicateEvent' } | { __typename: 'UnpinnedEvent' } | { __typename: 'UnsubscribedEvent' } | { __typename: 'UserBlockedEvent' }>>> }
-  ) }
+  & {
+    timelineItems: (
+      { __typename?: 'PullRequestTimelineItemsConnection' }
+      & {
+        pageInfo: (
+          { __typename?: 'PageInfo' }
+          & Pick<PageInfo, 'endCursor' | 'hasNextPage'>
+        ), nodes?: Maybe<Array<Maybe<{ __typename: 'AddedToProjectEvent' } | { __typename: 'AssignedEvent' } | { __typename: 'AutoMergeDisabledEvent' } | { __typename: 'AutoMergeEnabledEvent' } | { __typename: 'AutoRebaseEnabledEvent' } | { __typename: 'AutoSquashEnabledEvent' } | { __typename: 'AutomaticBaseChangeFailedEvent' } | { __typename: 'AutomaticBaseChangeSucceededEvent' } | { __typename: 'BaseRefChangedEvent' } | { __typename: 'BaseRefDeletedEvent' } | { __typename: 'BaseRefForcePushedEvent' } | (
+          { __typename: 'ClosedEvent' }
+          & Pick<ClosedEvent, 'createdAt'>
+        ) | { __typename: 'CommentDeletedEvent' } | { __typename: 'ConnectedEvent' } | { __typename: 'ConvertToDraftEvent' } | { __typename: 'ConvertedNoteToIssueEvent' } | { __typename: 'CrossReferencedEvent' } | { __typename: 'DemilestonedEvent' } | { __typename: 'DeployedEvent' } | { __typename: 'DeploymentEnvironmentChangedEvent' } | { __typename: 'DisconnectedEvent' } | { __typename: 'HeadRefDeletedEvent' } | { __typename: 'HeadRefForcePushedEvent' } | { __typename: 'HeadRefRestoredEvent' } | { __typename: 'IssueComment' } | (
+            { __typename: 'LabeledEvent' }
+            & Pick<LabeledEvent, 'id' | 'createdAt'>
+            & {
+              label: (
+                { __typename?: 'Label' }
+                & Pick<Label, 'name'>
+              )
+            }
+          ) | { __typename: 'LockedEvent' } | { __typename: 'MarkedAsDuplicateEvent' } | { __typename: 'MentionedEvent' } | (
+            { __typename: 'MergedEvent' }
+            & Pick<MergedEvent, 'createdAt' | 'resourcePath'>
+          ) | { __typename: 'MilestonedEvent' } | { __typename: 'MovedColumnsInProjectEvent' } | { __typename: 'PinnedEvent' } | { __typename: 'PullRequestCommit' } | { __typename: 'PullRequestCommitCommentThread' } | (
+            { __typename: 'PullRequestReview' }
+            & Pick<PullRequestReview, 'createdAt'>
+          ) | { __typename: 'PullRequestReviewThread' } | { __typename: 'PullRequestRevisionMarker' } | { __typename: 'ReadyForReviewEvent' } | { __typename: 'ReferencedEvent' } | (
+            { __typename: 'RemovedFromProjectEvent' }
+            & Pick<RemovedFromProjectEvent, 'createdAt'>
+          ) | { __typename: 'RenamedTitleEvent' } | (
+            { __typename: 'ReopenedEvent' }
+            & Pick<ReopenedEvent, 'createdAt'>
+          ) | { __typename: 'ReviewDismissedEvent' } | (
+            { __typename: 'ReviewRequestRemovedEvent' }
+            & Pick<ReviewRequestRemovedEvent, 'createdAt'>
+            & {
+              requestedReviewer?: Maybe<{ __typename: 'Mannequin' } | (
+                { __typename: 'Team' }
+                & Pick<Team, 'id'>
+              ) | (
+                  { __typename: 'User' }
+                  & Pick<User, 'id'>
+                )>
+            }
+          ) | (
+            { __typename: 'ReviewRequestedEvent' }
+            & Pick<ReviewRequestedEvent, 'createdAt'>
+            & {
+              requestedReviewer?: Maybe<{ __typename: 'Mannequin' } | (
+                { __typename: 'Team' }
+                & Pick<Team, 'id'>
+              ) | (
+                  { __typename: 'User' }
+                  & Pick<User, 'id'>
+                )>
+            }
+          ) | { __typename: 'SubscribedEvent' } | { __typename: 'TransferredEvent' } | { __typename: 'UnassignedEvent' } | (
+            { __typename: 'UnlabeledEvent' }
+            & Pick<UnlabeledEvent, 'id'>
+            & {
+              label: (
+                { __typename?: 'Label' }
+                & Pick<Label, 'name'>
+              )
+            }
+          ) | { __typename: 'UnlockedEvent' } | { __typename: 'UnmarkedAsDuplicateEvent' } | { __typename: 'UnpinnedEvent' } | { __typename: 'UnsubscribedEvent' } | { __typename: 'UserBlockedEvent' }>>>
+      }
+    )
+  }
 );
 
-export type GetPrQueryVariables = Exact<{
+export type PullRequestFragment = (
+  { __typename?: 'Repository' }
+  & {
+    pullRequest?: Maybe<(
+      { __typename?: 'PullRequest' }
+      & Pick<PullRequest, 'id' | 'createdAt' | 'title' | 'url'>
+      & {
+        author?: Maybe<(
+          { __typename?: 'Bot' }
+          & Pick<Bot, 'login'>
+        ) | (
+            { __typename?: 'EnterpriseUserAccount' }
+            & Pick<EnterpriseUserAccount, 'login'>
+          ) | (
+            { __typename?: 'Mannequin' }
+            & Pick<Mannequin, 'login'>
+          ) | (
+            { __typename?: 'Organization' }
+            & Pick<Organization, 'login'>
+          ) | (
+            { __typename?: 'User' }
+            & Pick<User, 'login'>
+          )>
+      }
+      & TimelineItemsFragment
+    )>
+  }
+);
+
+export type PullRequestQueryVariables = Exact<{
   name: Scalars['String'];
   owner: Scalars['String'];
   number: Scalars['Int'];
 }>;
 
 
-export type GetPrQuery = (
+export type PullRequestQuery = (
   { __typename?: 'Query' }
-  & { repository?: Maybe<(
-    { __typename?: 'Repository' }
-    & { pullRequest?: Maybe<(
-      { __typename?: 'PullRequest' }
-      & Pick<PullRequest, 'id' | 'title' | 'url'>
-      & { author?: Maybe<(
-        { __typename?: 'Bot' }
-        & Pick<Bot, 'login'>
-      ) | (
-        { __typename?: 'EnterpriseUserAccount' }
-        & Pick<EnterpriseUserAccount, 'login'>
-      ) | (
-        { __typename?: 'Mannequin' }
-        & Pick<Mannequin, 'login'>
-      ) | (
-        { __typename?: 'Organization' }
-        & Pick<Organization, 'login'>
-      ) | (
-        { __typename?: 'User' }
-        & Pick<User, 'login'>
-      )> }
-      & TimelineItemsFragment
-    )> }
-  )> }
+  & {
+    repository?: Maybe<(
+      { __typename?: 'Repository' }
+      & PullRequestFragment
+    )>
+  }
 );

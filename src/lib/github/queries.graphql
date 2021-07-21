@@ -63,44 +63,25 @@ fragment TimelineItems on PullRequest {
   }
 }
 
-query GetPr(
+fragment PullRequest on Repository {
+  pullRequest(number: $number) {
+    id
+    createdAt
+    title
+    url
+    author {
+      login
+    }
+    ...TimelineItems
+  }
+}
+
+query PullRequest (
   $name: String!
   $owner: String!
   $number: Int!
 ) {
   repository(name: $name, owner: $owner) {
-    pullRequest(number: $number) {
-      id
-      title
-      url
-      author {
-        login
-      }
-      ...TimelineItems
-    }
+    ...PullRequest
   }
 }
-
-# query OrganizationPullRequests {
-#   organization(login: "aha-app") {
-#     repositories(first: 1) {
-#       nodes {
-#         name
-#         pullRequests(first: 5) {
-#           pageInfo{
-#             startCursor
-#             endCursor
-#             hasNextPage
-#           }
-#           nodes {
-#             author {
-#               login
-#             }
-#             title
-#             url
-#           }
-#         }
-#       }
-#     }
-#   }
-# }

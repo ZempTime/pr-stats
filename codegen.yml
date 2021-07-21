@@ -12,7 +12,7 @@ generates:
             "
       - "typescript"
       - "typescript-operations"
-  src/lib/github/queries.ts:
+  src/generated/operations.ts:
     plugins:
       - add:
           content: "

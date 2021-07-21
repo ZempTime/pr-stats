@@ -1,6 +1,6 @@
 // import { GetPrQuery } from "../../generated/graphql"
-import { GqlGetPr } from "./queries";
-import { GetPrQuery } from "../../generated/graphql"
+import { GqlPullRequest } from "../../generated/operations";
+import { PullRequestQuery } from "../../generated/graphql"
 import { print } from "graphql";
 import { repoFromUrl } from "./repoFromUrl";
 
@@ -19,8 +19,8 @@ import { repoFromUrl } from "./repoFromUrl";
  * @returns {Promise<any>}
  */
 export async function getPr(api, owner, name, number, options = {}) {
-  let result: GetPrQuery;
-  result = await api(print(GqlGetPr), { owner, name, number, ...options });
+  let result: PullRequestQuery;
+  result = await api(print(GqlPullRequest), { owner, name, number, ...options });
   return result.repository.pullRequest;
 }
 
