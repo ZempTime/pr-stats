@@ -12,13 +12,7 @@ export const computeUpdatedPr = (pullRequest) => {
     }
   });
 
-  const prService = interpret(pullRequestMachine).onTransition((state) => {
-    console.group(`pull request machine ${url}`)
-    console.debug(`event: ${state._event.name}`);
-    console.debug(`state: ${state.value}`);
-    console.debug(`context: ${JSON.stringify(state.context, null, 2)}`);
-    console.groupEnd();
-  });
+  const prService = interpret(pullRequestMachine);
 
   prService.start();
 
