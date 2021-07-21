@@ -22,7 +22,6 @@ const logNodes = (nodes) => console.info(nodes.map(node => node.url));
 export const processPullRequests = async ({ record, repos, cutoffDate }) => {
   console.group('processPullRequests');
 
-  const errors = [];
   const updates = {};
 
   await withGitHubApi(async (api) => {
@@ -44,9 +43,10 @@ export const processPullRequests = async ({ record, repos, cutoffDate }) => {
 
       let continueSearching: boolean = true;
       let cursor: string = initialPrs.pageInfo.endCursor;
+      let recentishTimestamp = new Date();
 
       while (continueSearching) {
-        console.info(`Retrieving prs for ${repo} after ${cursor}`);
+        console.info(`Retrieving prs for ${repo} after ${cursor} around ${recentishTimestamp}`);
         const {
           nodes,
           pageInfo: {
@@ -57,6 +57,8 @@ export const processPullRequests = async ({ record, repos, cutoffDate }) => {
 
         const updatedPrs = nodes.map(pr => computeUpdatedPr(pr));
         updatedPrs.forEach(pr => updates[pr.id] = pr);
+
+        recentishTimestamp = nodes[nodes.length - 1].createdAt;
 
         if (!hasNextPage) {
           console.info(`Reached end of pages for ${repo}. Stopping.`);
