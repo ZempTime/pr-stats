@@ -24,6 +24,10 @@
         "refreshPullRequest": {
           "title": "PR Stats: Refresh Pull Request",
           "entryPoint": "src/commands/refreshPullRequest.js"
+        },
+        "updatePullRequests": {
+          "title": "PR Stats: Update Pull Requests (Intensive)",
+          "entryPoint": "src/commands/updatePullRequests.js"
         }
       },
       "events": {

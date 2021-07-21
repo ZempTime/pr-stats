@@ -1,46 +1,12 @@
-import { interpret } from "xstate/es";
-import { pullRequestMachine } from "../store/pullRequestMachine";
-import { PullRequestQuery, } from "../generated/graphql"
-import { IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS } from "../extension"
+import { PullRequestQuery, } from "../generated/graphql";
+import { IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS } from "../extension";
+import { computeUpdatedPr } from "./pullRequest";
 
 export const processPullRequest = async (
   { record, pullRequest }: { record: any, pullRequest: PullRequestQuery['repository']['pullRequest'] }
 ) => {
-  const { id, title, url, createdAt, author: { login }, timelineItems } = pullRequest;
-  console.info(`Processing pr: ${url} by ${login}`);
-
-  const events = timelineItems.nodes.map((item) => {
-    return {
-      ...item,
-      type: item.__typename
-    }
-  });
-
-  const prService = interpret(pullRequestMachine).onTransition((state) => {
-    console.info(`event: ${state._event.name}`);
-    console.info(`state: ${state.value}`);
-    console.info(`context: ${JSON.stringify(state.context, null, 2)}`);
-  });
-
-  prService.start();
-
-  events.forEach(event => prService.send(event));
-
-  const { value, context } = prService.state;
-
-  prService.stop();
-
-  const updatedPr = {
-    id,
-    createdAt,
-    title,
-    url,
-    login,
-    state: {
-      value,
-      context
-    }
-  };
+  console.group(`processPullRequest() ${pullRequest.url}`)
+  const updatedPr = computeUpdatedPr(pullRequest);
 
   const existingPrs = await record.getExtensionField(IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS);
 
@@ -53,4 +19,6 @@ export const processPullRequest = async (
   console.info(JSON.stringify(updatedPr, null, 2));
 
   await record.setExtensionField(IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS, pullRequests);
+
+  console.groupEnd();
 }

@@ -1,4 +1,4 @@
-fragment TimelineItems on PullRequest {
+fragment TimelineItemsData on PullRequest {
   timelineItems(first: 250, itemTypes: [REVIEW_REQUESTED_EVENT, REVIEW_REQUEST_REMOVED_EVENT, PULL_REQUEST_REVIEW, CLOSED_EVENT, CONVERT_TO_DRAFT_EVENT, REMOVED_FROM_PROJECT_EVENT, LABELED_EVENT, MERGED_EVENT, UNLABELED_EVENT]) {
     pageInfo {
       endCursor
@@ -63,16 +63,13 @@ fragment TimelineItems on PullRequest {
   }
 }
 
-fragment PullRequest on Repository {
-  pullRequest(number: $number) {
-    id
-    createdAt
-    title
-    url
-    author {
-      login
-    }
-    ...TimelineItems
+fragment PullRequestData on PullRequest {
+  id
+  createdAt
+  title
+  url
+  author {
+    login
   }
 }
 
@@ -82,6 +79,46 @@ query PullRequest (
   $number: Int!
 ) {
   repository(name: $name, owner: $owner) {
-    ...PullRequest
+    pullRequest(number: $number) {
+      ...PullRequestData
+      ...TimelineItemsData
+    }
+  }
+}
+
+query InitialPullRequests (
+  $name: String!
+  $owner: String!
+) {
+  repository(name: $name, owner: $owner) {
+    pullRequests(first: 20, orderBy: { field: CREATED_AT, direction: DESC }) {
+      pageInfo {
+				endCursor
+        hasNextPage
+      }
+      nodes {
+        ...PullRequestData
+        ...TimelineItemsData
+      }
+    }
+  }
+}
+
+query PaginatedPullRequests (
+  $name: String!
+  $owner: String!
+  $after: String!
+) {
+  repository(name: $name, owner: $owner) {
+    pullRequests(first: 20, after: $after, orderBy: { field: CREATED_AT, direction: DESC }) {
+      pageInfo {
+				endCursor
+        hasNextPage
+      }
+      nodes {
+        ...PullRequestData
+        ...TimelineItemsData
+      }
+    }
   }
 }
