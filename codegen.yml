@@ -1,0 +1,25 @@
+overwrite: true
+schema: reference/github.schema.docs.graphql
+documents: "src/**/*.graphql"
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - add:
+          content: "
+            /* This file is generated from the contents of src/lib/github/queries.graphql */
+            /* Do not modify this file directly */
+            /* Use `yarn codegen` to update this file */
+            "
+      - "typescript"
+      - "typescript-operations"
+  src/lib/github/queries.ts:
+    plugins:
+      - add:
+          content: "
+            /* This file is generated from the contents of src/lib/github/queries.graphql */
+            /* Do not modify this file directly */
+            /* Use `yarn codegen` to update this file */
+            "
+      - "typescript-document-nodes"
+    config:
+      namePrefix: 'gql'

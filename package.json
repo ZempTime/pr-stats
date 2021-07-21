@@ -9,11 +9,23 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@graphql-codegen/add": "^2.0.2",
+    "@graphql-codegen/cli": "1.21.7",
+    "@graphql-codegen/introspection": "1.18.2",
+    "@graphql-codegen/typescript": "1.23.0",
+    "@graphql-codegen/typescript-document-nodes": "^1.17.16",
+    "@graphql-codegen/typescript-operations": "1.18.4",
     "aha-cli": "^1.9.2"
   },
   "ahaExtension": {
     "cspSources": [],
     "contributes": {
+      "commands": {
+        "refreshPullRequest": {
+          "title": "PR Stats: Refresh Pull Request",
+          "entryPoint": "src/commands/refreshPullRequest.js"
+        }
+      },
       "events": {
         "observer": {
           "title": "Github First Review Observer",
@@ -30,10 +42,14 @@
         "firstReviews": {
           "title": "First Review Team Filters",
           "description": "[Team identifier,ghname1,ghname2,...] to track time to first review.",
-          "scope": ["account"],
+          "scope": [
+            "account"
+          ],
           "type": "string",
           "array": true,
-          "default": ["Conversion,zemptime"]
+          "default": [
+            "Conversion,zemptime"
+          ]
         }
       },
       "views": {
@@ -47,5 +63,13 @@
         }
       }
     }
+  },
+  "dependencies": {
+    "gql-tag": "^1.0.1",
+    "graphql": "^15.5.1",
+    "xstate": "^4.23.0"
+  },
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.yml"
   }
 }
