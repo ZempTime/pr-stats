@@ -30,18 +30,6 @@
           "entryPoint": "src/commands/updatePullRequests.js"
         }
       },
-      "events": {
-        "observer": {
-          "title": "Github First Review Observer",
-          "entryPoint": "src/events/github.pr.js",
-          "handles": [
-            "aha-develop.github.pr.review_requested",
-            "aha-develop.github.pr.review_request_removed",
-            "aha-develop.github.pull_request_review.submitted",
-            "aha-develop.github.pull_request_review.dismissed"
-          ]
-        }
-      },
       "settings": {
         "firstReviews": {
           "title": "(to be removed shortly) First Review Team Filters",

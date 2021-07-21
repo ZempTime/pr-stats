@@ -1,6 +1,6 @@
 import React from "react"
 import prettyMs from 'https://cdn.skypack.dev/pretty-ms';
-import { teamLoginsFilter, notSupportFilter, hasFirstReviewDurationFilter, hasFirstReviewRequestedAtFilter, hasReadyToMergedDurationFilter, isSupportFilter } from "./filters";
+import { notSupportFilter, hasReadyToMergedDurationFilter, isSupportFilter } from "./filters";
 
 const calculateNonSupportAverage = ({ pullRequests }) => {
   const prs = pullRequests

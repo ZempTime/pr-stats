@@ -1,7 +1,3 @@
-export const EXTENSION_ID = 'zemptime.pr-stats';
-export const FIELD_FIRST_REVIEWS = 'firstReviews';
-export const SETTING_FIRST_REVIEWS = 'firstReviews';
-
 /*
   [
     'TeamName1,zemptime,othername',

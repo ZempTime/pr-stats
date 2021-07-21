@@ -17,7 +17,7 @@ export const computeUpdatedPr = (pullRequest) => {
     console.debug(`event: ${state._event.name}`);
     console.debug(`state: ${state.value}`);
     console.debug(`context: ${JSON.stringify(state.context, null, 2)}`);
-    console.groupEnd
+    console.groupEnd();
   });
 
   prService.start();

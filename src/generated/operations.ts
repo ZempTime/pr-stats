@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 export const TimelineItemsData = gql`
     fragment TimelineItemsData on PullRequest {
   timelineItems(
-    first: 250
+    first: 50
     itemTypes: [REVIEW_REQUESTED_EVENT, REVIEW_REQUEST_REMOVED_EVENT, PULL_REQUEST_REVIEW, CLOSED_EVENT, CONVERT_TO_DRAFT_EVENT, REMOVED_FROM_PROJECT_EVENT, LABELED_EVENT, MERGED_EVENT, UNLABELED_EVENT]
   ) {
     pageInfo {

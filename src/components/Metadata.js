@@ -7,7 +7,7 @@ export const Metadata = ({ metadata }) => {
   return (
     <>
       <aha-panel heading="Metadata">
-        <p>Last run: {prettyMs(Date.now() - lastRunAt)} ago </p>
+        <p>Last run: {prettyMs(Date.now() - Date.parse(lastRunAt))} ago </p>
         <p>Cutoff date: {cutoffDate} </p>
         <p>Repos: [{repos.map(repo => `'${repo}'`).join(", ")}] </p>
         <p># PRs updated: {pullRequestCount} </p>
