@@ -7,3 +7,5 @@ export const SETTING_ACCOUNT_CUTOFF_DATE = "cutoffDate";
 
 export const LABEL_READY = "Ready";
 export const LABEL_SUPPORT_FIX = "Support Fix";
+
+export const GITHUB_AUTH_SCOPE = "repo,read:org";

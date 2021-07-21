@@ -74,6 +74,7 @@
     }
   },
   "dependencies": {
+    "@aha-app/aha-develop-react": "^1.0.6",
     "gql-tag": "^1.0.1",
     "graphql": "^15.5.1",
     "xstate": "^4.23.0"

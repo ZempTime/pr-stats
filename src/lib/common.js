@@ -15,3 +15,11 @@ export const buildTeamFilters = (firstReviewSettings) => {
     return [team.toLowerCase(), usernames.map(u => u.toLowerCase())];
   })
 };
+
+export const validPrUrl = (urlString) => {
+  const url = new URL(urlString);
+  return (
+    url.origin === "https://github.com" &&
+    url.pathname.match(/\/[^\/]+\/[^\/]+\/pull\/\d+/)
+  );
+}

@@ -1,5 +1,6 @@
 // @ts-ignore
 import { graphql } from "https://cdn.skypack.dev/@octokit/graphql";
+import { GITHUB_AUTH_SCOPE } from "../../extension";
 
 /** @typedef {(query:string,options?:{})=>Promise<any>} GithubApi */
 
@@ -7,7 +8,7 @@ import { graphql } from "https://cdn.skypack.dev/@octokit/graphql";
  * @returns {Promise<GithubApi>}
  */
 export async function githubApi(cachedOnly = false) {
-  const options = { useCachedRetry: true, parameters: { scope: "repo,read:org" } };
+  const options = { useCachedRetry: true, parameters: { scope: GITHUB_AUTH_SCOPE } };
   if (cachedOnly) {
     options["reAuth"] = false;
   }

@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@aha-app/aha-develop-react@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@aha-app/aha-develop-react/-/aha-develop-react-1.0.6.tgz#1a85f9c24ea03e27b5abd5b9aa7b8e5a9cd53cf4"
+  integrity sha512-eDTLvj5kUdt8vQHhKJuAk6McAoN6jbwLTSS6K4c2/dFDVEW9APetFTXg8VOX6RsV2HPjfeGXf5nEk7pwgNSOlQ==
+
 "@ardatan/aggregate-error@0.0.6":
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/@ardatan/aggregate-error/-/aggregate-error-0.0.6.tgz#fe6924771ea40fc98dc7a7045c2e872dc8527609"

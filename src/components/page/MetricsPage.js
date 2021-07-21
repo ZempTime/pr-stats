@@ -6,6 +6,7 @@ import { IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS, FIELD_ACCOUNT_PULL_REQUESTS_ME
 import { Metadata } from "../Metadata";
 import { TimeToFirstReviewMetric } from "../TimeToFirstReviewMetric";
 import { ReadyToMergedMetric } from "../ReadyToMergedMetric";
+import { PrExaminer } from "../PrExaminer";
 
 const MetricsQuery = gql`
   query MetricsQuery($identifier: String!) {
@@ -82,6 +83,7 @@ export const MetricsPage = ({ teams, repos }) => {
 
         <TimeToFirstReviewMetric pullRequests={pullRequests.value} teams={teams} />
         <ReadyToMergedMetric pullRequests={pullRequests.value} />
+        <PrExaminer />
       </>
     )
   }

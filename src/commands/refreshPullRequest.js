@@ -1,20 +1,9 @@
 import { withGitHubApi } from "../lib/github/api";
 import { getPrByUrl } from "../lib/github/pullRequest";
-import { processPullRequest } from "../store/processPullRequest"
-
-/**
- * @param {string} urlString
- */
-function validPrUrl(urlString) {
-  const url = new URL(urlString);
-  return (
-    url.origin === "https://github.com" &&
-    url.pathname.match(/\/[^\/]+\/[^\/]+\/pull\/\d+/)
-  );
-}
+import { processPullRequest } from "../store/processPullRequest";
+import { validPrUrl } from "../lib/common";
 
 aha.on("refreshPullRequest", async ({ record }, { identifier, settings }) => {
-
   const prUrl = await aha.commandPrompt("Link URL", {
     placeholder: "Enter the URL to a pull request",
   });
