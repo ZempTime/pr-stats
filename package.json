@@ -40,7 +40,7 @@
       },
       "settings": {
         "firstReviews": {
-          "title": "First Review Team Filters",
+          "title": "(to be removed shortly) First Review Team Filters",
           "description": "[Team identifier,ghname1,ghname2,...] to track time to first review.",
           "scope": [
             "account"
@@ -50,6 +50,23 @@
           "default": [
             "Conversion,zemptime"
           ]
+        },
+        "cutoffDate": {
+          "title": "Cutoff Date",
+          "scope": [
+            "account"
+          ],
+          "type": "string",
+          "description": "Pull requests between now and this date will be searched for. Ensure this works with `Date.parse()`. e.g. '2021-06-01'."
+        },
+        "repos": {
+          "title": "Related repositories",
+          "scope": [
+            "account"
+          ],
+          "type": "string",
+          "array": true,
+          "description": "List of the GitHub repositories that should be searched for pull request metrics. e.g. 'rails/rails'."
         }
       },
       "views": {
