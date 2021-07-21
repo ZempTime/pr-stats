@@ -6,7 +6,7 @@ import { IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS } from "../extension"
 export const processPullRequest = async (
   { record, pullRequest }: { record: any, pullRequest: PullRequestQuery['repository']['pullRequest'] }
 ) => {
-  const { id, title, url, author: { login }, timelineItems } = pullRequest;
+  const { id, title, url, createdAt, author: { login }, timelineItems } = pullRequest;
   console.info(`Processing pr: ${url} by ${login}`);
 
   const events = timelineItems.nodes.map((item) => {
@@ -32,6 +32,7 @@ export const processPullRequest = async (
 
   const updatedPr = {
     id,
+    createdAt,
     title,
     url,
     login,
