@@ -1,6 +1,5 @@
 import { createMachine, assign } from "xstate/es";
-
-const READY_LABEL = "Ready";
+import { LABEL_READY } from "../extension";
 
 const labelEvents = {
   LabeledEvent: {
@@ -158,7 +157,7 @@ const pullRequestMachine = createMachine(
         }
       }),
       maybeAddReadyLabeledAt: assign((context, event) => {
-        if (event.label.name !== READY_LABEL) return context;
+        if (event.label.name !== LABEL_READY) return context;
 
         return {
           ...context,
@@ -166,7 +165,7 @@ const pullRequestMachine = createMachine(
         }
       }),
       maybeRemoveReadyLabeledAt: assign((context) => {
-        if (context.labels.includes(READY_LABEL)) return context;
+        if (context.labels.includes(LABEL_READY)) return context;
 
         return {
           ...context,
@@ -202,8 +201,8 @@ const pullRequestMachine = createMachine(
     },
     guards: {
       noRequestedReviewers: (context) => context.requestedReviewers.length === 0,
-      hasReadyLabel: (context) => context.labels.includes(READY_LABEL),
-      lacksReadyLabel: (context) => !context.labels.includes(READY_LABEL)
+      hasReadyLabel: (context) => context.labels.includes(LABEL_READY),
+      lacksReadyLabel: (context) => !context.labels.includes(LABEL_READY)
     }
   }
 )

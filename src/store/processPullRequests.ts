@@ -1,5 +1,4 @@
-import { InitialPullRequestsQuery, PaginatedPullRequestsQuery } from "../generated/graphql";
-import { IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS, FIELD_ACCOUNT_PULL_REQUESTS_METADATA } from "../extension";
+import { IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS, FIELD_ACCOUNT_PULL_REQUESTS_MEDATA } from "../extension";
 import { initialPullRequests, paginatedPullRequests } from "../lib/github/pullRequests";
 import { withGitHubApi } from "../lib/github/api";
 import { computeUpdatedPr } from "./pullRequest";
@@ -84,6 +83,13 @@ export const processPullRequests = async ({ record, repos, cutoffDate }) => {
   ];
 
   await record.setExtensionField(IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS, updatedPrs);
+
+  await record.setExtensionField(IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS_MEDATA, {
+    lastRunAt: new Date(),
+    cutoffDate: cutoffDate,
+    repos: repos,
+    pullRequestCount: updatedIds.length
+  });
 
   console.info(`Finished processing ${updatedIds.length} pull requests across ${repos.length} repos.`);
 

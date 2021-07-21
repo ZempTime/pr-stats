@@ -74,10 +74,10 @@
         }
       },
       "views": {
-        "firstReviewPage": {
-          "title": "First Reviews",
+        "metricsPage": {
+          "title": "Pr Metrics",
           "host": "page",
-          "entryPoint": "src/views/firstReviewPage.js",
+          "entryPoint": "src/views/metrics.js",
           "location": {
             "menu": "Document"
           }
