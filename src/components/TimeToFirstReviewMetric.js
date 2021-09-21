@@ -65,7 +65,7 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
           {teamFilters.map((team) => <option value={team[0]}>{team[0]}</option>)}
         </select>
         <p>usernames: {teamLogins.join(", ")}</p>
-
+        <a href="https://github.com/ZempTime/pr-stats/blob/main/src/store/pullRequestMachine.js" target="_blank" rel="noopener noreferrer">How is this calculated?</a>
         <aha-flex gap={'4em'}>
           <div className="panelSection">
             <p><strong>Historic Team Average:</strong></p>

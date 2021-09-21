@@ -139,9 +139,31 @@ const pullRequestMachine = createMachine(
         const requested = Date.parse(context.firstReviewRequestedAt);
         const reviewed = Date.parse(context.firstReviewSubmittedAt)
 
+        const onSameCalendarDay = context.firstReviewRequestedAt.slice(0, 10) === context.firstReviewSubmittedAt.slice(0, 10);
+
+        let nightsAndWeekends;
+
+        if (onSameCalendarDay) {
+          nightsAndWeekends = 0;
+        } else {
+          const msInHour = 60 * 60 * 1000;
+          const msInDay = 24 * msInHour;
+
+          const omittedAmountPerDay = msInHour * 16; // -16 hours/day
+          const omittedAmountPerWeekend = msInHour * 16 // - additional 16h/weekend
+
+          let numDaysBetween = Math.floor((reviewed - requested) / msInDay);
+          const numWeeksBetween = Math.floor(numDaysBetween / 7);
+
+          // Different calendar day but less than 24 apart
+          if (numDaysBetween === 0) numDaysBetween = 1;
+
+          nightsAndWeekends = (numDaysBetween * omittedAmountPerDay) + (numWeeksBetween * omittedAmountPerWeekend);
+        }
+
         return {
           ...context,
-          firstReviewDuration: reviewed - requested
+          firstReviewDuration: reviewed - requested - nightsAndWeekends
         }
       }),
       addLabel: assign((context, event) => {
