@@ -1,3 +1,5 @@
+import prettyMs from 'https://cdn.skypack.dev/pretty-ms';
+
 /*
   [
     'TeamName1,zemptime,othername',
@@ -22,4 +24,9 @@ export const validPrUrl = (urlString) => {
     url.origin === "https://github.com" &&
     url.pathname.match(/\/[^\/]+\/[^\/]+\/pull\/\d+/)
   );
+}
+
+export const prettyMsSanitized = (potentialMs) => {
+  if (!potentialMs) return 0;
+  return prettyMs(Math.round(potentialMs));
 }

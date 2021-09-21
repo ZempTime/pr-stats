@@ -2,6 +2,7 @@ import { IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS, FIELD_ACCOUNT_PULL_REQUESTS_ME
 import { initialPullRequests, paginatedPullRequests } from "../lib/github/pullRequests";
 import { withGitHubApi } from "../lib/github/api";
 import { computeUpdatedPr } from "./pullRequest";
+import bucketedStorage from "./bucketedStorage";
 
 const hasReachedCutoffDate = (nodes, cutoffDate) => {
   let date;
@@ -74,17 +75,11 @@ export const processPullRequests = async ({ record, repos, cutoffDate }) => {
       }
     }));
   });
-
-  const existingPrs = await record.getExtensionField(IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS);
-
+  
   const updatedIds = Object.keys(updates);
-
-  const updatedPrs = [
-    ...existingPrs.filter(pr => !updatedIds.includes(pr.id)),
-    ...Object.values(updates)
-  ];
-
-  await record.setExtensionField(IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS, updatedPrs);
+  const updatedPrs = Object.values(updates);
+  
+  await bucketedStorage.storePullRequests(updatedPrs);
 
   await record.setExtensionField(IDENTIFIER, FIELD_ACCOUNT_PULL_REQUESTS_MEDATA, {
     lastRunAt: new Date(),

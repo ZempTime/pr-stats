@@ -1,5 +1,5 @@
 import React from "react"
-import prettyMs from 'https://cdn.skypack.dev/pretty-ms';
+import { prettyMsSanitized } from "../lib/common";
 import { notSupportFilter, hasReadyToMergedDurationFilter, isSupportFilter } from "./filters";
 
 const calculateNonSupportAverage = ({ pullRequests }) => {
@@ -39,13 +39,13 @@ export const ReadyToMergedMetric = ({ pullRequests }) => {
         <aha-flex gap={'4em'}>
           <div className="panelSection">
             <p><strong>Non-support:</strong></p>
-            <h3>{prettyMs(nonSupportAverageMs)}</h3>
+            <h3>{prettyMsSanitized(nonSupportAverageMs)}</h3>
             <p>across {nonSupportPrs.length} prs</p>
           </div>
 
           <div className="panelSection">
             <p><strong>Support:</strong></p>
-            <h3>{prettyMs(supportAverageMs)}</h3>
+            <h3>{prettyMsSanitized(supportAverageMs)}</h3>
             <p>across {supportPrs.length} prs</p>
           </div>
         </aha-flex>

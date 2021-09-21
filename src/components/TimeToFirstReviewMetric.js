@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import prettyMs from 'https://cdn.skypack.dev/pretty-ms';
-import { buildTeamFilters } from "../lib/common";
+import { buildTeamFilters, prettyMsSanitized } from "../lib/common";
 import { teamLoginsFilter, notSupportFilter, hasFirstReviewDurationFilter, hasFirstReviewRequestedAtFilter } from "./filters";
 
 // For PR's which have had their first review, how long did it take?
@@ -70,14 +69,14 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
         <aha-flex gap={'4em'}>
           <div className="panelSection">
             <p><strong>Historic Team Average:</strong></p>
-            <h3>{prettyMs(teamHistoricAverageMs)} </h3>
+            <h3>{prettyMsSanitized(teamHistoricAverageMs)} </h3>
             <p>across {historicAveragePRs.length} prs</p>
             <p>(Avg of PR's which have had their first review)</p>
           </div>
 
           <div className="panelSection">
             <p><strong>Inclusive Team Average:</strong></p>
-            <h3>{prettyMs(teamInclusiveAverageMs)} </h3>
+            <h3>{prettyMsSanitized(teamInclusiveAverageMs)} </h3>
             <p>across {inclusiveAveragePRs.length} prs</p>
             <p>(Includes PR's still needing review)</p>
           </div>

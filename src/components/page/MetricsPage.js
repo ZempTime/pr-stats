@@ -41,7 +41,7 @@ const fetchMetricsQuery = async (metricsQuery, setMetricsQuery) => {
     };
     const data = await aha.graphQuery(print(MetricsQuery), { variables });
 
-    setMetricsQuery({ ...metricsQuery, status: PROMISE_STATES.success, data });
+    setMetricsQuery({ ...metricsQuery, status: PROMISE_STATES.success, data});
   } catch (e) {
     setMetricsQuery({ ...metricsQuery, status: PROMISE_STATES.error, error: e })
   }
@@ -75,14 +75,16 @@ export const MetricsPage = ({ teams, repos }) => {
 
   if (status === PROMISE_STATES.success) {
     const metadata = data.account.extensionFields.find(field => field.name === FIELD_ACCOUNT_PULL_REQUESTS_MEDATA);
-    const pullRequests = data.account.extensionFields.find(field => field.name === FIELD_ACCOUNT_PULL_REQUESTS);
+    const isBucket = /account.pull_requests_\d/;
+    const buckets = data.account.extensionFields.filter(entry => isBucket.test(entry.name));
+    const pullRequests = Object.values(buckets).map(bucket => bucket.value).flat();
 
     return (
       <>
         <Metadata metadata={metadata.value} />
 
-        <TimeToFirstReviewMetric pullRequests={pullRequests.value} teams={teams} />
-        <ReadyToMergedMetric pullRequests={pullRequests.value} />
+        <TimeToFirstReviewMetric pullRequests={pullRequests} teams={teams} />
+        <ReadyToMergedMetric pullRequests={pullRequests} />
         {/* <PrExaminer /> */}
       </>
     )
