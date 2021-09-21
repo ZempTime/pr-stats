@@ -22050,6 +22050,22 @@ export type TimelineItemsDataFragment = (
     ) | { __typename: 'MilestonedEvent' } | { __typename: 'MovedColumnsInProjectEvent' } | { __typename: 'PinnedEvent' } | { __typename: 'PullRequestCommit' } | { __typename: 'PullRequestCommitCommentThread' } | (
       { __typename: 'PullRequestReview' }
       & Pick<PullRequestReview, 'createdAt'>
+      & { author?: Maybe<(
+        { __typename?: 'Bot' }
+        & Pick<Bot, 'login'>
+      ) | (
+        { __typename?: 'EnterpriseUserAccount' }
+        & Pick<EnterpriseUserAccount, 'login'>
+      ) | (
+        { __typename?: 'Mannequin' }
+        & Pick<Mannequin, 'login'>
+      ) | (
+        { __typename?: 'Organization' }
+        & Pick<Organization, 'login'>
+      ) | (
+        { __typename?: 'User' }
+        & Pick<User, 'login'>
+      )> }
     ) | { __typename: 'PullRequestReviewThread' } | { __typename: 'PullRequestRevisionMarker' } | { __typename: 'ReadyForReviewEvent' } | { __typename: 'ReferencedEvent' } | (
       { __typename: 'RemovedFromProjectEvent' }
       & Pick<RemovedFromProjectEvent, 'createdAt'>

@@ -38,6 +38,9 @@ export const TimelineItemsData = gql`
       }
       ... on PullRequestReview {
         createdAt
+        author {
+          login
+        }
       }
       ... on ClosedEvent {
         createdAt

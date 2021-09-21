@@ -83,7 +83,7 @@ export const MetricsPage = ({ teams, repos }) => {
 
         <TimeToFirstReviewMetric pullRequests={pullRequests.value} teams={teams} />
         <ReadyToMergedMetric pullRequests={pullRequests.value} />
-        <PrExaminer />
+        {/* <PrExaminer /> */}
       </>
     )
   }

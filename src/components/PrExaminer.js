@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { validPrUrl } from "../lib/common";
 import { getPrByUrl } from "../lib/github/pullRequest";
 import { withGitHubApi } from "../lib/github/api";
@@ -53,11 +53,7 @@ export const PrExaminer = () => {
     <aha-panel heading="Pr Examiner">
       <p>You can use this to interrogate how the state chart currently processes a given PR.</p>
       <form>
-        <aha-flex gap="1em">
-          <aha-field label="Pull Request" error={error}>
-            <input value={prUrl} onInput={handleInput} type="text" placeholder="https://github.com/org/repo/1234" />
-          </aha-field>
-        </aha-flex>
+        <input value={prUrl} onInput={handleInput} type="text" placeholder="https://github.com/org/repo/1234" />
         <aha-button onClick={handleExplain}>Explain</aha-button>
       </form>
 

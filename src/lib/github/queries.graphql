@@ -32,6 +32,9 @@ fragment TimelineItemsData on PullRequest {
       }
       ...on PullRequestReview {
         createdAt
+        author {
+          login
+        }
       }
       ...on ClosedEvent {
         createdAt

@@ -44,7 +44,8 @@ const pullRequestMachine = createMachine(
           ...labelEvents,
           PullRequestReview: {
             target: 'reviewed',
-            actions: ['addFirstReviewSubmittedAt']
+            actions: ['addFirstReviewSubmittedAt'],
+            cond: 'reviewerIsNotAuthor'
           },
           ReviewRequestRemovedEvent: [
             {
@@ -133,6 +134,7 @@ const pullRequestMachine = createMachine(
           console.info(`Missing firstReviewRequestedAt ${context.firstReviewRequestedAt} or firstReviewSubmittedAt ${context.firstReviewSubmittedAt} returning from computeFirstReviewDuration`);
           return context;
         }
+        // TODO: minus 16h * datediff(days, requested, submitted)
 
         const requested = Date.parse(context.firstReviewRequestedAt);
         const reviewed = Date.parse(context.firstReviewSubmittedAt)
@@ -202,7 +204,8 @@ const pullRequestMachine = createMachine(
     guards: {
       noRequestedReviewers: (context) => context.requestedReviewers.length === 0,
       hasReadyLabel: (context) => context.labels.includes(LABEL_READY),
-      lacksReadyLabel: (context) => !context.labels.includes(LABEL_READY)
+      lacksReadyLabel: (context) => !context.labels.includes(LABEL_READY),
+      reviewerIsNotAuthor: (context, event) => event.author.login !== context.login
     }
   }
 )
