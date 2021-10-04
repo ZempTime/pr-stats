@@ -101,18 +101,35 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
 
         <aha-flex>
           <h3>Historic All Teams</h3>
-          <ol>
-          {
-            Object.entries(weeklyGroups).map(([week, prs]) => {
-              const [historicAverageMS, numPrs] = calculateHistoricAverage(prs);
-              return (
-                <li>
-                  {week.slice(0, 15)} - <strong>{prettyMsSanitized(historicAverageMS)} </strong> across {numPrs.length} prs
-                </li>
-              )
-            })
-          }
-          </ol>
+          <table>
+            <thead>
+              <th>Date</th>
+              <th>Minutes</th>
+              <th># prs</th>
+              <th></th>
+            </thead>
+            <tbody>
+              {
+                Object.entries(weeklyGroups).map(([week, prs]) => {
+                  const [historicAverageMS, numPrs] = calculateHistoricAverage(prs);
+                  return (
+                    <tr>
+                      <td>{week.slice(0, 15)}</td>
+                      <td>{ Math.round(historicAverageMS / (1000 * 60)) }</td>
+                      <td>{numPrs.length}</td>
+                      <td>
+                        <aha-help-popover open-width="600px">
+                          <ul>
+                            {prs.map(pr => <li><a href={pr.url} target="_blank" rel="noreferrer noopener">{pr.title}</a></li>)}
+                          </ul>
+                        </aha-help-popover>
+                      </td>
+                    </tr>
+                  )
+                })
+              }
+            </tbody>
+          </table>
         </aha-flex>
       </aha-panel>
     </>
