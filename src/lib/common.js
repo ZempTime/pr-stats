@@ -35,5 +35,5 @@ export const prettyMsSanitized = (potentialMs) => {
 
 export const groupByWeek = (pullRequests) => _.groupBy(
   pullRequests,
-  (pullRequest) => moment(pullRequest.state.context.mergedAt).startOf('isoWeek')
+  (pullRequest) => moment(pullRequest.state.context.mergedAt).endOf('isoWeek')
 );

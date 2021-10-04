@@ -102,15 +102,16 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
         <aha-flex>
           <h3>Historic All Teams</h3>
           <ol>
-          {Object.entries(weeklyGroups).map(([week, prs]) => {
-            const [historicAverageMS, numPrs] = calculateHistoricAverage(prs);
-            return (
-              <li>
-                {week.slice(0, 15)} - <strong>{prettyMsSanitized(historicAverageMS)} </strong> across {numPrs.length} prs
-              </li>
-            )
-            }
-          )}
+          {
+            Object.entries(weeklyGroups).map(([week, prs]) => {
+              const [historicAverageMS, numPrs] = calculateHistoricAverage(prs);
+              return (
+                <li>
+                  {week.slice(0, 15)} - <strong>{prettyMsSanitized(historicAverageMS)} </strong> across {numPrs.length} prs
+                </li>
+              )
+            })
+          }
           </ol>
         </aha-flex>
       </aha-panel>
