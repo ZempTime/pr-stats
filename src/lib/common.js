@@ -1,4 +1,6 @@
 import prettyMs from 'https://cdn.skypack.dev/pretty-ms';
+import moment from 'https://cdn.skypack.dev/moment';
+import _ from 'https://cdn.skypack.dev/lodash-es';
 
 /*
   [
@@ -30,3 +32,8 @@ export const prettyMsSanitized = (potentialMs) => {
   if (!potentialMs) return 0;
   return prettyMs(Math.round(potentialMs));
 }
+
+export const groupByWeek = (pullRequests) => _.groupBy(
+  pullRequests,
+  (pullRequest) => moment(pullRequest.createdAt).startOf('isoWeek')
+);

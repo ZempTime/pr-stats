@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { buildTeamFilters, prettyMsSanitized } from "../lib/common";
+import { buildTeamFilters, prettyMsSanitized, groupByWeek } from "../lib/common";
 import { teamLoginsFilter, notSupportFilter, hasFirstReviewDurationFilter, hasFirstReviewRequestedAtFilter } from "./filters";
 
 // For PR's which have had their first review, how long did it take?
@@ -42,6 +42,19 @@ const calculateInclusiveTeamAverage = ({ pullRequests, teamLogins }) => {
   return [numerator / denominator, prs];
 };
 
+const calculateHistoricAverage = (pullRequests) => {
+  const prs = pullRequests
+    .filter(notSupportFilter)
+    .filter(hasFirstReviewDurationFilter);
+
+  const numerator = prs.reduce((acc, pr) => acc + pr.state.context.firstReviewDuration, 0);
+  const denominator = prs.length;
+
+  if (denominator === 0) return [0, prs];
+
+  return [numerator / denominator, prs];
+};
+
 export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
 
   const teamFilters = buildTeamFilters(teams);
@@ -57,6 +70,8 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
 
   const [teamHistoricAverageMs, historicAveragePRs] = calculateHistoricTeamAverage({ pullRequests, teamLogins });
   const [teamInclusiveAverageMs, inclusiveAveragePRs] = calculateInclusiveTeamAverage({ pullRequests, teamLogins })
+
+  const weeklyGroups = groupByWeek(pullRequests);
 
   return (
     <>
@@ -80,6 +95,23 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
             <p>across {inclusiveAveragePRs.length} prs</p>
             <p>(Includes PR's still needing review)</p>
           </div>
+        </aha-flex>
+        
+        <br />
+
+        <aha-flex>
+          <h3>Historic All Teams</h3>
+          <ol>
+          {Object.entries(weeklyGroups).map(([week, prs]) => {
+            const [historicAverageMS, numPrs] = calculateHistoricAverage(prs);
+            return (
+              <li>
+                {week.slice(0, 15)} - <strong>{prettyMsSanitized(historicAverageMS)} </strong> across {numPrs.length} prs
+              </li>
+            )
+            }
+          )}
+          </ol>
         </aha-flex>
       </aha-panel>
     </>
