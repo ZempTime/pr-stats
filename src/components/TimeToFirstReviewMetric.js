@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { buildTeamFilters, prettyMsSanitized, groupByWeek } from "../lib/common";
 import { teamLoginsFilter, notSupportFilter, hasFirstReviewDurationFilter, hasFirstReviewRequestedAtFilter } from "./filters";
+import { PrActionTable } from "./PrActionTable";
 
 // For PR's which have had their first review, how long did it take?
 const calculateHistoricTeamAverage = ({ pullRequests, teamLogins }) => {
@@ -120,9 +121,7 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
                       <td>{numPrs.length}</td>
                       <td>
                         <aha-help-popover open-width="600px">
-                          <ul>
-                            {prs.map(pr => <li><a href={pr.url} target="_blank" rel="noreferrer noopener">{pr.title}</a></li>)}
-                          </ul>
+                          <PrActionTable prs={prs} />
                         </aha-help-popover>
                       </td>
                     </tr>
@@ -155,9 +154,7 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
                       <td>{numPrs.length}</td>
                       <td>
                         <aha-help-popover open-width="600px">
-                          <ul>
-                            {prs.map(pr => <li><a href={pr.url} target="_blank" rel="noreferrer noopener">{pr.title}</a></li>)}
-                          </ul>
+                          <PrActionTable prs={prs} />
                         </aha-help-popover>
                       </td>
                     </tr>
