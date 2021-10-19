@@ -72,6 +72,7 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
   const [teamInclusiveAverageMs, inclusiveAveragePRs] = calculateInclusiveTeamAverage({ pullRequests, teamLogins })
 
   const weeklyGroups = groupByWeek(pullRequests);
+  const teamWeeklyGroups = groupByWeek(historicAveragePRs);
 
   return (
     <>
@@ -96,10 +97,45 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
             <p>(Includes PR's still needing review)</p>
           </div>
         </aha-flex>
-        
+
         <br />
 
-        <aha-flex>
+        <div>
+          <h3>Historic for {selectedTeamName} </h3>
+          <table>
+            <thead>
+              <th>Date</th>
+              <th>Minutes</th>
+              <th># prs</th>
+              <th></th>
+            </thead>
+            <tbody>
+              {
+                Object.entries(teamWeeklyGroups).map(([week, prs]) => {
+                  const [historicAverageMS, numPrs] = calculateHistoricAverage(prs);
+                  return (
+                    <tr>
+                      <td>{week.slice(0, 15)}</td>
+                      <td>{ Math.round(historicAverageMS / (1000 * 60)) }</td>
+                      <td>{numPrs.length}</td>
+                      <td>
+                        <aha-help-popover open-width="600px">
+                          <ul>
+                            {prs.map(pr => <li><a href={pr.url} target="_blank" rel="noreferrer noopener">{pr.title}</a></li>)}
+                          </ul>
+                        </aha-help-popover>
+                      </td>
+                    </tr>
+                  )
+                })
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <br />
+
+        <div>
           <h3>Historic All Teams</h3>
           <table>
             <thead>
@@ -130,7 +166,7 @@ export const TimeToFirstReviewMetric = ({ pullRequests, teams }) => {
               }
             </tbody>
           </table>
-        </aha-flex>
+        </div>
       </aha-panel>
     </>
   );
